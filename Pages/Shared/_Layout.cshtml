@@ -1,142 +1,278 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Sistema de Gestión de Pedidos</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        },
+                        accent: {
+                            green: '#22c55e',
+                            orange: '#fb923c',
+                            purple: '#a78bfa',
+                            yellow: '#fbbf24',
+                        },
+                        neutral: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'bounce-subtle': 'bounceSubtle 2s infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
+    
+    <style>
+        @@keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @@keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @@keyframes bounceSubtle {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-3px); }
+            60% { transform: translateY(-2px); }
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" asp-page="/Index">
-                    <i class="fas fa-shopping-cart me-2"></i>
-                    Sistema de Pedidos
-                </a>
-                
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Index">
-                                <i class="fas fa-home me-1"></i>Inicio
+<body class="h-full bg-neutral-50 font-sans antialiased">
+    <div class="min-h-full">
+        <!-- Navigation -->
+        <nav class="bg-white shadow-lg border-b border-neutral-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex">
+                        <!-- Logo -->
+                        <div class="flex-shrink-0 flex items-center">
+                            <a href="/" class="flex items-center space-x-2 text-primary-600 hover:text-primary-700 transition-colors duration-200">
+                                <div class="bg-gradient-to-br from-primary-500 to-primary-600 p-2 rounded-lg">
+                                    <i class="fas fa-shopping-cart text-white text-lg"></i>
+                                </div>
+                                <span class="text-xl font-bold text-neutral-900">SistemaPedidos</span>
                             </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-users me-1"></i>Usuarios
+                        </div>
+                        
+                        <!-- Navigation Links -->
+                        <div class="hidden sm:ml-8 sm:flex sm:space-x-8">
+                            <a href="/" class="border-transparent text-neutral-700 hover:border-primary-500 hover:text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-all duration-200">
+                                <i class="fas fa-home mr-2"></i>Dashboard
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-page="/Users/Index">Lista de Usuarios</a></li>
-                                <li><a class="dropdown-item" asp-page="/Users/Create">Crear Usuario</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-box me-1"></i>Productos
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-page="/Products/Index">Lista de Productos</a></li>
-                                <li><a class="dropdown-item" asp-page="/Products/Create">Crear Producto</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-clipboard-list me-1"></i>Pedidos
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-page="/Orders/Index">Lista de Pedidos</a></li>
-                                <li><a class="dropdown-item" asp-page="/Orders/Create">Crear Pedido</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                            
+                            <!-- Users Dropdown -->
+                            <div class="relative group">
+                                <button class="border-transparent text-neutral-700 hover:border-primary-500 hover:text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-all duration-200">
+                                    <i class="fas fa-users mr-2"></i>Usuarios
+                                    <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                                </button>
+                                <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                    <div class="py-1">
+                                        <a href="/Users" class="flex items-center px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 hover:text-primary-600 transition-colors duration-150">
+                                            <i class="fas fa-list mr-2"></i>Lista de Usuarios
+                                        </a>
+                                        <a href="/Users/Create" class="flex items-center px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 hover:text-primary-600 transition-colors duration-150">
+                                            <i class="fas fa-user-plus mr-2"></i>Crear Usuario
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Products Dropdown -->
+                            <div class="relative group">
+                                <button class="border-transparent text-neutral-700 hover:border-primary-500 hover:text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-all duration-200">
+                                    <i class="fas fa-box mr-2"></i>Productos
+                                    <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                                </button>
+                                <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                    <div class="py-1">
+                                        <a href="/Products" class="flex items-center px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 hover:text-primary-600 transition-colors duration-150">
+                                            <i class="fas fa-list mr-2"></i>Lista de Productos
+                                        </a>
+                                        <a href="/Products/Create" class="flex items-center px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 hover:text-primary-600 transition-colors duration-150">
+                                            <i class="fas fa-plus mr-2"></i>Crear Producto
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Orders Dropdown -->
+                            <div class="relative group">
+                                <button class="border-transparent text-neutral-700 hover:border-primary-500 hover:text-primary-600 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-all duration-200">
+                                    <i class="fas fa-clipboard-list mr-2"></i>Pedidos
+                                    <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                                </button>
+                                <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                    <div class="py-1">
+                                        <a href="/Orders" class="flex items-center px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 hover:text-primary-600 transition-colors duration-150">
+                                            <i class="fas fa-list mr-2"></i>Lista de Pedidos
+                                        </a>
+                                        <a href="/Orders/Create" class="flex items-center px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 hover:text-primary-600 transition-colors duration-150">
+                                            <i class="fas fa-plus mr-2"></i>Crear Pedido
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
-                    <ul class="navbar-nav">
+                    <!-- User Menu -->
+                    <div class="hidden sm:ml-6 sm:flex sm:items-center">
                         @{
                             var currentUser = Context.Session.GetString("UserName");
                             var userRole = Context.Session.GetString("UserRole");
                         }
                         @if (!string.IsNullOrEmpty(currentUser))
                         {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                    <i class="fas fa-user me-1"></i>@currentUser (@userRole)
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" asp-page="/Account/Profile">Mi Perfil</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" asp-page="/Account/Logout">Cerrar Sesión</a></li>
-                                </ul>
-                            </li>
+                            <div class="relative group">
+                                <button class="bg-white flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all duration-200">
+                                    <span class="sr-only">Abrir menú de usuario</span>
+                                    <div class="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-neutral-100 transition-colors duration-200">
+                                        <div class="bg-gradient-to-br from-primary-500 to-accent-purple p-2 rounded-full">
+                                            <i class="fas fa-user text-white text-sm"></i>
+                                        </div>
+                                        <div class="text-left">
+                                            <div class="text-sm font-medium text-neutral-900">@currentUser</div>
+                                            <div class="text-xs text-neutral-500">@userRole</div>
+                                        </div>
+                                        <i class="fas fa-chevron-down text-neutral-400 text-xs"></i>
+                                    </div>
+                                </button>
+                                
+                                <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                    <div class="py-1">
+                                        <a href="/Account/Profile" class="flex items-center px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 hover:text-primary-600 transition-colors duration-150">
+                                            <i class="fas fa-user-circle mr-2"></i>Mi Perfil
+                                        </a>
+                                        <div class="border-t border-neutral-100"></div>
+                                        <a href="/Account/Logout" class="flex items-center px-4 py-2 text-sm text-red-700 hover:bg-red-50 transition-colors duration-150">
+                                            <i class="fas fa-sign-out-alt mr-2"></i>Cerrar Sesión
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         }
                         else
                         {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-page="/Account/Login">
-                                    <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
-                                </a>
-                            </li>
+                            <a href="/Account/Login" class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 transform hover:scale-105">
+                                <i class="fas fa-sign-in-alt mr-2"></i>Iniciar Sesión
+                            </a>
                         }
-                    </ul>
+                    </div>
+                    
+                    <!-- Mobile menu button -->
+                    <div class="sm:hidden flex items-center">
+                        <button class="bg-white inline-flex items-center justify-center p-2 rounded-md text-neutral-400 hover:text-neutral-500 hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500">
+                            <span class="sr-only">Abrir menú principal</span>
+                            <i class="fas fa-bars text-lg"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </nav>
-    </header>
 
-    <main class="container mt-4">
-        @if (TempData["SuccessMessage"] != null)
-        {
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="fas fa-check-circle me-2"></i>@TempData["SuccessMessage"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        }
-
-        @if (TempData["ErrorMessage"] != null)
-        {
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="fas fa-exclamation-circle me-2"></i>@TempData["ErrorMessage"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        }
-
-        @if (TempData["WarningMessage"] != null)
-        {
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <i class="fas fa-exclamation-triangle me-2"></i>@TempData["WarningMessage"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        }
-
-        @RenderBody()
-    </main>
-
-    <footer class="bg-light py-4 mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="text-muted mb-0">
-                        &copy; @DateTime.Now.Year - Sistema de Gestión de Pedidos
-                    </p>
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <!-- Alert Messages -->
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="mb-6 animate-slide-up">
+                    <div class="bg-accent-green bg-opacity-10 border border-accent-green border-opacity-30 text-green-800 px-4 py-3 rounded-lg flex items-center">
+                        <i class="fas fa-check-circle mr-3 text-accent-green"></i>
+                        <span>@TempData["SuccessMessage"]</span>
+                        <button class="ml-auto text-green-800 hover:text-green-900" onclick="this.parentElement.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="col-md-6 text-end">
-                    <p class="text-muted mb-0">
-                        Desarrollado con .NET 8 y Clean Architecture
-                    </p>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="mb-6 animate-slide-up">
+                    <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-center">
+                        <i class="fas fa-exclamation-circle mr-3 text-red-500"></i>
+                        <span>@TempData["ErrorMessage"]</span>
+                        <button class="ml-auto text-red-800 hover:text-red-900" onclick="this.parentElement.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+
+            @if (TempData["WarningMessage"] != null)
+            {
+                <div class="mb-6 animate-slide-up">
+                    <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg flex items-center">
+                        <i class="fas fa-exclamation-triangle mr-3 text-accent-yellow"></i>
+                        <span>@TempData["WarningMessage"]</span>
+                        <button class="ml-auto text-yellow-800 hover:text-yellow-900" onclick="this.parentElement.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+
+            <div class="px-4 sm:px-0">
+                @RenderBody()
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t border-neutral-200 mt-12">
+            <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                        <div class="bg-gradient-to-br from-primary-500 to-primary-600 p-2 rounded-lg">
+                            <i class="fas fa-shopping-cart text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <p class="text-neutral-900 font-medium">Sistema de Gestión de Pedidos</p>
+                            <p class="text-neutral-500 text-sm">&copy; @DateTime.Now.Year - Todos los derechos reservados</p>
+                        </div>
+                    </div>
+                    <div class="text-neutral-500 text-sm text-center md:text-right">
+                        <p>Desarrollado con .NET 8 y Clean Architecture</p>
+                        <p class="mt-1">
+                            <span class="inline-flex items-center space-x-2">
+                                <i class="fas fa-heart text-red-500"></i>
+                                <span>Hecho con amor y código</span>
+                            </span>
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

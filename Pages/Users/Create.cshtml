@@ -1,0 +1,429 @@
+@page
+@model GestionPedidosAV.Pages.Users.CreateModel
+@{
+    ViewData["Title"] = "Crear Usuario";
+}
+
+<!-- Header Section -->
+<div class="mb-8">
+    <div class="flex items-center">
+        <a href="/Users" class="text-neutral-600 hover:text-neutral-900 mr-4 transition-colors duration-200">
+            <i class="fas fa-arrow-left text-lg"></i>
+        </a>
+        <div>
+            <h1 class="text-3xl font-bold text-neutral-900">
+                <i class="fas fa-user-plus mr-3 text-primary-600"></i>Crear Usuario
+            </h1>
+            <p class="text-neutral-600 mt-1">Registra un nuevo usuario en el sistema</p>
+        </div>
+    </div>
+</div>
+
+<!-- Progress Indicator -->
+<div class="mb-8">
+    <div class="flex items-center">
+        <div class="flex items-center text-primary-600">
+            <span class="flex items-center justify-center w-8 h-8 bg-primary-600 text-white rounded-full text-sm font-medium">1</span>
+            <span class="ml-2 text-sm font-medium">Información Personal</span>
+        </div>
+        <div class="flex-1 mx-4">
+            <div class="h-0.5 bg-neutral-200"></div>
+        </div>
+        <div class="flex items-center text-neutral-400">
+            <span class="flex items-center justify-center w-8 h-8 bg-neutral-200 text-neutral-600 rounded-full text-sm font-medium">2</span>
+            <span class="ml-2 text-sm font-medium">Credenciales</span>
+        </div>
+        <div class="flex-1 mx-4">
+            <div class="h-0.5 bg-neutral-200"></div>
+        </div>
+        <div class="flex items-center text-neutral-400">
+            <span class="flex items-center justify-center w-8 h-8 bg-neutral-200 text-neutral-600 rounded-full text-sm font-medium">3</span>
+            <span class="ml-2 text-sm font-medium">Confirmación</span>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Main Form -->
+    <div class="lg:col-span-2">
+        <form method="post" class="space-y-6">
+            <!-- Personal Information Card -->
+            <div class="bg-white rounded-xl shadow-sm border border-neutral-200">
+                <div class="p-6 border-b border-neutral-200">
+                    <h3 class="text-lg font-semibold text-neutral-900 flex items-center">
+                        <i class="fas fa-user mr-3 text-primary-600"></i>
+                        Información Personal
+                    </h3>
+                    <p class="text-neutral-600 text-sm mt-1">Datos básicos del usuario</p>
+                </div>
+                
+                <div class="p-6 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label asp-for="User.FirstName" class="block text-sm font-medium text-neutral-700 mb-2">
+                                Nombre <span class="text-red-500">*</span>
+                            </label>
+                            <input asp-for="User.FirstName" 
+                                   class="block w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200"
+                                   placeholder="Ingresa el nombre">
+                            <span asp-validation-for="User.FirstName" class="text-red-500 text-sm mt-1"></span>
+                        </div>
+                        
+                        <div>
+                            <label asp-for="User.LastName" class="block text-sm font-medium text-neutral-700 mb-2">
+                                Apellido <span class="text-red-500">*</span>
+                            </label>
+                            <input asp-for="User.LastName" 
+                                   class="block w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200"
+                                   placeholder="Ingresa el apellido">
+                            <span asp-validation-for="User.LastName" class="text-red-500 text-sm mt-1"></span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label asp-for="User.Email" class="block text-sm font-medium text-neutral-700 mb-2">
+                            Email <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-neutral-400"></i>
+                            </div>
+                            <input asp-for="User.Email" 
+                                   type="email"
+                                   class="block w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200"
+                                   placeholder="usuario@ejemplo.com">
+                        </div>
+                        <span asp-validation-for="User.Email" class="text-red-500 text-sm mt-1"></span>
+                    </div>
+                    
+                    <div>
+                        <label asp-for="User.PhoneNumber" class="block text-sm font-medium text-neutral-700 mb-2">
+                            Teléfono
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-phone text-neutral-400"></i>
+                            </div>
+                            <input asp-for="User.PhoneNumber" 
+                                   type="tel"
+                                   class="block w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200"
+                                   placeholder="+1 (555) 123-4567">
+                        </div>
+                        <span asp-validation-for="User.PhoneNumber" class="text-red-500 text-sm mt-1"></span>
+                    </div>
+                    
+                    <div>
+                        <label asp-for="User.Address" class="block text-sm font-medium text-neutral-700 mb-2">
+                            Dirección
+                        </label>
+                        <textarea asp-for="User.Address" 
+                                  rows="3"
+                                  class="block w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200"
+                                  placeholder="Dirección completa..."></textarea>
+                        <span asp-validation-for="User.Address" class="text-red-500 text-sm mt-1"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Information Card -->
+            <div class="bg-white rounded-xl shadow-sm border border-neutral-200">
+                <div class="p-6 border-b border-neutral-200">
+                    <h3 class="text-lg font-semibold text-neutral-900 flex items-center">
+                        <i class="fas fa-shield-alt mr-3 text-primary-600"></i>
+                        Información de Seguridad
+                    </h3>
+                    <p class="text-neutral-600 text-sm mt-1">Credenciales y permisos de acceso</p>
+                </div>
+                
+                <div class="p-6 space-y-6">
+                    <div>
+                        <label asp-for="User.Password" class="block text-sm font-medium text-neutral-700 mb-2">
+                            Contraseña <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-lock text-neutral-400"></i>
+                            </div>
+                            <input asp-for="User.Password" 
+                                   type="password"
+                                   id="password"
+                                   class="block w-full pl-10 pr-12 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200"
+                                   placeholder="Mínimo 6 caracteres">
+                            <button type="button" 
+                                    onclick="togglePassword('password')"
+                                    class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                <i class="fas fa-eye text-neutral-400 hover:text-neutral-600" id="password-icon"></i>
+                            </button>
+                        </div>
+                        <div class="mt-2 text-sm text-neutral-600">
+                            <div class="flex items-center space-x-4">
+                                <span class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-1"></i>
+                                    Mínimo 6 caracteres
+                                </span>
+                                <span class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-1"></i>
+                                    Una mayúscula
+                                </span>
+                                <span class="flex items-center">
+                                    <i class="fas fa-check text-green-500 mr-1"></i>
+                                    Un número
+                                </span>
+                            </div>
+                        </div>
+                        <span asp-validation-for="User.Password" class="text-red-500 text-sm mt-1"></span>
+                    </div>
+                    
+                    <div>
+                        <label asp-for="User.Role" class="block text-sm font-medium text-neutral-700 mb-2">
+                            Rol del Usuario <span class="text-red-500">*</span>
+                        </label>
+                        <select asp-for="User.Role" 
+                                asp-items="Html.GetEnumSelectList<Domain.Enums.UserRole>()"
+                                class="block w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200">
+                            <option value="">Selecciona un rol</option>
+                        </select>
+                        <div class="mt-2 text-sm text-neutral-600">
+                            <div class="space-y-1">
+                                <div class="flex items-center">
+                                    <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-red-100 text-red-800 mr-2">
+                                        <i class="fas fa-user-shield mr-1"></i>Admin
+                                    </span>
+                                    <span>Acceso completo al sistema</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800 mr-2">
+                                        <i class="fas fa-user-tie mr-1"></i>Empleado
+                                    </span>
+                                    <span>Gestión de pedidos y productos</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-800 mr-2">
+                                        <i class="fas fa-user mr-1"></i>Cliente
+                                    </span>
+                                    <span>Realizar y consultar pedidos</span>
+                                </div>
+                            </div>
+                        </div>
+                        <span asp-validation-for="User.Role" class="text-red-500 text-sm mt-1"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="bg-white rounded-xl shadow-sm border border-neutral-200">
+                <div class="p-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
+                        <div class="text-sm text-neutral-600">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Los campos marcados con <span class="text-red-500">*</span> son obligatorios
+                        </div>
+                        
+                        <div class="flex space-x-3">
+                            <a href="/Users" 
+                               class="bg-neutral-100 hover:bg-neutral-200 text-neutral-700 hover:text-neutral-900 px-6 py-3 rounded-lg font-medium transition-all duration-200">
+                                <i class="fas fa-times mr-2"></i>Cancelar
+                            </a>
+                            
+                            <button type="submit" 
+                                    class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105">
+                                <i class="fas fa-save mr-2"></i>Crear Usuario
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="space-y-6">
+        <!-- Tips Card -->
+        <div class="bg-gradient-to-br from-blue-50 to-primary-50 rounded-xl border border-blue-200 p-6">
+            <div class="flex items-center mb-4">
+                <div class="bg-primary-100 p-2 rounded-lg mr-3">
+                    <i class="fas fa-lightbulb text-primary-600"></i>
+                </div>
+                <h4 class="font-semibold text-neutral-900">Consejos</h4>
+            </div>
+            
+            <ul class="space-y-3 text-sm text-neutral-700">
+                <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                    <span>Usa un email válido para notificaciones importantes</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                    <span>La contraseña debe ser segura y única</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                    <span>Asigna el rol apropiado según las responsabilidades</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Preview Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-neutral-200">
+            <div class="p-6 border-b border-neutral-200">
+                <h4 class="font-semibold text-neutral-900 flex items-center">
+                    <i class="fas fa-eye mr-2 text-neutral-600"></i>
+                    Vista Previa
+                </h4>
+            </div>
+            
+            <div class="p-6">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="bg-gradient-to-br from-primary-500 to-accent-purple p-3 rounded-full">
+                        <i class="fas fa-user text-white"></i>
+                    </div>
+                    <div>
+                        <div class="font-medium text-neutral-900" id="preview-name">Nombre completo</div>
+                        <div class="text-sm text-neutral-600" id="preview-email">email@ejemplo.com</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-neutral-600">Rol:</span>
+                        <span id="preview-role" class="font-medium">-</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-neutral-600">Teléfono:</span>
+                        <span id="preview-phone" class="font-medium">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Level Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-neutral-200">
+            <div class="p-6 border-b border-neutral-200">
+                <h4 class="font-semibold text-neutral-900 flex items-center">
+                    <i class="fas fa-shield-alt mr-2 text-green-600"></i>
+                    Nivel de Seguridad
+                </h4>
+            </div>
+            
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm text-neutral-600">Fortaleza:</span>
+                    <span id="security-level" class="text-sm font-medium text-neutral-400">Débil</span>
+                </div>
+                <div class="w-full bg-neutral-200 rounded-full h-2">
+                    <div id="security-bar" class="bg-red-500 h-2 rounded-full transition-all duration-300" style="width: 20%"></div>
+                </div>
+                <p class="text-xs text-neutral-500 mt-2" id="security-text">
+                    Completa todos los campos para mejorar la seguridad
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(inputId + '-icon');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+        
+        // Live preview updates
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstNameInput = document.querySelector('[name="User.FirstName"]');
+            const lastNameInput = document.querySelector('[name="User.LastName"]');
+            const emailInput = document.querySelector('[name="User.Email"]');
+            const phoneInput = document.querySelector('[name="User.PhoneNumber"]');
+            const roleSelect = document.querySelector('[name="User.Role"]');
+            const passwordInput = document.querySelector('[name="User.Password"]');
+            
+            function updatePreview() {
+                const firstName = firstNameInput.value || 'Nombre';
+                const lastName = lastNameInput.value || 'Apellido';
+                const email = emailInput.value || 'email@ejemplo.com';
+                const phone = phoneInput.value || '-';
+                const role = roleSelect.options[roleSelect.selectedIndex]?.text || '-';
+                
+                document.getElementById('preview-name').textContent = `${firstName} ${lastName}`;
+                document.getElementById('preview-email').textContent = email;
+                document.getElementById('preview-phone').textContent = phone;
+                document.getElementById('preview-role').textContent = role;
+            }
+            
+            function updateSecurityLevel() {
+                const password = passwordInput.value;
+                let level = 0;
+                let color = 'red';
+                let text = 'Débil';
+                let width = 20;
+                
+                if (password.length >= 6) level++;
+                if (/[A-Z]/.test(password)) level++;
+                if (/[0-9]/.test(password)) level++;
+                if (/[^A-Za-z0-9]/.test(password)) level++;
+                
+                switch(level) {
+                    case 0:
+                    case 1:
+                        color = 'red';
+                        text = 'Débil';
+                        width = 25;
+                        break;
+                    case 2:
+                        color = 'yellow';
+                        text = 'Regular';
+                        width = 50;
+                        break;
+                    case 3:
+                        color = 'blue';
+                        text = 'Buena';
+                        width = 75;
+                        break;
+                    case 4:
+                        color = 'green';
+                        text = 'Excelente';
+                        width = 100;
+                        break;
+                }
+                
+                const bar = document.getElementById('security-bar');
+                const levelText = document.getElementById('security-level');
+                const securityText = document.getElementById('security-text');
+                
+                bar.style.width = width + '%';
+                bar.className = `h-2 rounded-full transition-all duration-300 bg-${color}-500`;
+                levelText.textContent = text;
+                levelText.className = `text-sm font-medium text-${color}-600`;
+                
+                if (level >= 3) {
+                    securityText.textContent = 'Contraseña segura y robusta';
+                } else {
+                    securityText.textContent = 'Usa mayúsculas, números y símbolos para mayor seguridad';
+                }
+            }
+            
+            // Event listeners
+            [firstNameInput, lastNameInput, emailInput, phoneInput, roleSelect].forEach(input => {
+                input.addEventListener('input', updatePreview);
+                input.addEventListener('change', updatePreview);
+            });
+            
+            passwordInput.addEventListener('input', updateSecurityLevel);
+            
+            // Initial updates
+            updatePreview();
+            updateSecurityLevel();
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}
