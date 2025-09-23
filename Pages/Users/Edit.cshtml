@@ -1,0 +1,205 @@
+@page
+@model GestionPedidosAV.Pages.Users.EditModel
+@{
+    ViewData["Title"] = $"Editar {Model.User.FirstName} {Model.User.LastName}";
+}
+
+<!-- Header Section -->
+<div class="mb-8">
+    <div class="flex items-center">
+        <a href="/Users/Details/@Model.User.Id" class="text-neutral-600 hover:text-neutral-900 mr-4 transition-colors duration-200">
+            <i class="fas fa-arrow-left text-lg"></i>
+        </a>
+        <div>
+            <h1 class="text-3xl font-bold text-neutral-900">
+                <i class="fas fa-user-edit mr-3 text-primary-600"></i>Editar Usuario
+            </h1>
+            <p class="text-neutral-600 mt-1">Modifica la información del usuario</p>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Main Form -->
+    <div class="lg:col-span-2">
+        <form method="post" class="space-y-6">
+            <input type="hidden" asp-for="User.Id" />
+            
+            <!-- Personal Information Card -->
+            <div class="bg-white rounded-xl shadow-sm border border-neutral-200">
+                <div class="p-6 border-b border-neutral-200">
+                    <h3 class="text-lg font-semibold text-neutral-900 flex items-center">
+                        <i class="fas fa-user mr-3 text-primary-600"></i>
+                        Información Personal
+                    </h3>
+                </div>
+                
+                <div class="p-6 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label asp-for="User.FirstName" class="block text-sm font-medium text-neutral-700 mb-2">
+                                Nombre <span class="text-red-500">*</span>
+                            </label>
+                            <input asp-for="User.FirstName" 
+                                   class="block w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200">
+                            <span asp-validation-for="User.FirstName" class="text-red-500 text-sm mt-1"></span>
+                        </div>
+                        
+                        <div>
+                            <label asp-for="User.LastName" class="block text-sm font-medium text-neutral-700 mb-2">
+                                Apellido <span class="text-red-500">*</span>
+                            </label>
+                            <input asp-for="User.LastName" 
+                                   class="block w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200">
+                            <span asp-validation-for="User.LastName" class="text-red-500 text-sm mt-1"></span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label asp-for="User.Email" class="block text-sm font-medium text-neutral-700 mb-2">
+                            Email <span class="text-red-500">*</span>
+                        </label>
+                        <input asp-for="User.Email" 
+                               type="email"
+                               class="block w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200">
+                        <span asp-validation-for="User.Email" class="text-red-500 text-sm mt-1"></span>
+                    </div>
+                    
+                    <div>
+                        <label asp-for="User.PhoneNumber" class="block text-sm font-medium text-neutral-700 mb-2">
+                            Teléfono
+                        </label>
+                        <input asp-for="User.PhoneNumber" 
+                               type="tel"
+                               class="block w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200">
+                        <span asp-validation-for="User.PhoneNumber" class="text-red-500 text-sm mt-1"></span>
+                    </div>
+                    
+                    <div>
+                        <label asp-for="User.Address" class="block text-sm font-medium text-neutral-700 mb-2">
+                            Dirección
+                        </label>
+                        <textarea asp-for="User.Address" 
+                                  rows="3"
+                                  class="block w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200"></textarea>
+                        <span asp-validation-for="User.Address" class="text-red-500 text-sm mt-1"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Role and Status Card -->
+            <div class="bg-white rounded-xl shadow-sm border border-neutral-200">
+                <div class="p-6 border-b border-neutral-200">
+                    <h3 class="text-lg font-semibold text-neutral-900 flex items-center">
+                        <i class="fas fa-user-cog mr-3 text-primary-600"></i>
+                        Configuración de Cuenta
+                    </h3>
+                </div>
+                
+                <div class="p-6 space-y-6">
+                    <div>
+                        <label asp-for="User.Role" class="block text-sm font-medium text-neutral-700 mb-2">
+                            Rol del Usuario <span class="text-red-500">*</span>
+                        </label>
+                        <select asp-for="User.Role" 
+                                asp-items="Html.GetEnumSelectList<Domain.Enums.UserRole>()"
+                                class="block w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200">
+                        </select>
+                        <span asp-validation-for="User.Role" class="text-red-500 text-sm mt-1"></span>
+                    </div>
+                    
+                    <div>
+                        <label class="flex items-center">
+                            <input asp-for="User.IsActive" 
+                                   type="checkbox"
+                                   class="rounded border-neutral-300 text-primary-600 shadow-sm focus:ring-primary-500">
+                            <span class="ml-2 text-sm font-medium text-neutral-700">
+                                Usuario activo
+                            </span>
+                        </label>
+                        <p class="text-xs text-neutral-500 mt-1">
+                            Los usuarios inactivos no pueden acceder al sistema
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="bg-white rounded-xl shadow-sm border border-neutral-200">
+                <div class="p-6">
+                    <div class="flex justify-end space-x-3">
+                        <a href="/Users/Details/@Model.User.Id" 
+                           class="bg-neutral-100 hover:bg-neutral-200 text-neutral-700 hover:text-neutral-900 px-6 py-3 rounded-lg font-medium transition-all duration-200">
+                            <i class="fas fa-times mr-2"></i>Cancelar
+                        </a>
+                        
+                        <button type="submit" 
+                                class="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105">
+                            <i class="fas fa-save mr-2"></i>Guardar Cambios
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="space-y-6">
+        <!-- Current Info -->
+        <div class="bg-white rounded-xl shadow-sm border border-neutral-200">
+            <div class="p-6 border-b border-neutral-200">
+                <h4 class="font-semibold text-neutral-900">Información Actual</h4>
+            </div>
+            <div class="p-6">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="bg-gradient-to-br from-primary-500 to-accent-purple p-3 rounded-full">
+                        <i class="fas fa-user text-white"></i>
+                    </div>
+                    <div>
+                        <div class="font-medium text-neutral-900">@Model.User.FirstName @Model.User.LastName</div>
+                        <div class="text-sm text-neutral-600">@Model.User.Email</div>
+                    </div>
+                </div>
+                
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-neutral-600">Rol:</span>
+                        <span class="font-medium">@Model.User.Role</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-neutral-600">Estado:</span>
+                        <span class="font-medium text-@(Model.User.IsActive ? "green" : "red")-600">
+                            @(Model.User.IsActive ? "Activo" : "Inactivo")
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="bg-gradient-to-br from-blue-50 to-primary-50 rounded-xl border border-blue-200 p-6">
+            <h4 class="font-semibold text-neutral-900 mb-3">
+                <i class="fas fa-lightbulb text-primary-600 mr-2"></i>
+                Consejos
+            </h4>
+            <ul class="space-y-2 text-sm text-neutral-700">
+                <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                    <span>Verifica que el email sea válido antes de guardar</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                    <span>El rol determina los permisos del usuario</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-check text-green-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                    <span>Usuarios inactivos no pueden iniciar sesión</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

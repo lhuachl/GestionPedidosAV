@@ -8,6 +8,7 @@ using GestionPedidosAV.Application.Services;
 using GestionPedidosAV.Application.Mappings;
 using GestionPedidosAV.Application.Validators;
 using GestionPedidosAV.Application.DTOs;
+using GestionPedidosAV.Infrastructure.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,9 +46,13 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromMinutes(30);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 });
 
 builder.Services.AddHttpContextAccessor();
+
+// Add memory cache for performance
+builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
@@ -57,21 +62,42 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
+else
+{
+    app.UseDeveloperExceptionPage();
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 app.UseSession();
+
+// Custom Authentication Middleware
+app.UseMiddleware<AuthenticationMiddleware>();
+
 app.UseAuthorization();
 
 app.MapRazorPages();
 
-// Create database if it doesn't exist
+// Create database and seed data if it doesn't exist
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    context.Database.EnsureCreated();
+    try
+    {
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        await context.Database.EnsureCreatedAsync();
+        
+        // Optionally run migrations
+        // await context.Database.MigrateAsync();
+        
+        Console.WriteLine("Database initialized successfully");
+    }
+    catch (Exception ex)
+    {
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while creating the database");
+    }
 }
 
 app.Run();

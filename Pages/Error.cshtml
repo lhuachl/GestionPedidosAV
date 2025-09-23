@@ -1,0 +1,132 @@
+@page
+@model ErrorModel
+@{
+    ViewData["Title"] = $"Error {Model.StatusCode}";
+}
+
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-primary-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full text-center">
+        <!-- Error Icon -->
+        <div class="mx-auto h-24 w-24 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center mb-8">
+            @switch (Model.StatusCode)
+            {
+                case 404:
+                    <i class="fas fa-search text-white text-3xl"></i>
+                    break;
+                case 403:
+                    <i class="fas fa-lock text-white text-3xl"></i>
+                    break;
+                case 401:
+                    <i class="fas fa-user-slash text-white text-3xl"></i>
+                    break;
+                default:
+                    <i class="fas fa-exclamation-triangle text-white text-3xl"></i>
+                    break;
+            }
+        </div>
+
+        <!-- Error Message -->
+        <div class="bg-white rounded-xl shadow-lg border border-neutral-200 p-8">
+            <h1 class="text-6xl font-bold text-red-600 mb-4">@Model.StatusCode</h1>
+            
+            <h2 class="text-2xl font-semibold text-neutral-900 mb-4">
+                @switch (Model.StatusCode)
+                {
+                    case 404:
+                        <span>Página No Encontrada</span>
+                        break;
+                    case 403:
+                        <span>Acceso Prohibido</span>
+                        break;
+                    case 401:
+                        <span>No Autorizado</span>
+                        break;
+                    default:
+                        <span>Error del Servidor</span>
+                        break;
+                }
+            </h2>
+            
+            <p class="text-neutral-600 mb-8">
+                @Model.ErrorMessage
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="space-y-4">
+                @if (Model.StatusCode == 401)
+                {
+                    <a href="/Account/Login" 
+                       class="block w-full bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Iniciar Sesión
+                    </a>
+                }
+                else
+                {
+                    <a href="/" 
+                       class="block w-full bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105">
+                        <i class="fas fa-home mr-2"></i>Volver al Inicio
+                    </a>
+                }
+                
+                <button onclick="history.back()" 
+                        class="block w-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 hover:text-neutral-900 px-6 py-3 rounded-lg font-medium transition-all duration-200">
+                    <i class="fas fa-arrow-left mr-2"></i>Volver Atrás
+                </button>
+            </div>
+
+            <!-- Request ID (for debugging) -->
+            @if (Model.ShowRequestId)
+            {
+                <div class="mt-8 pt-4 border-t border-neutral-200">
+                    <p class="text-xs text-neutral-500">
+                        ID de Solicitud: <code class="bg-neutral-100 px-2 py-1 rounded">@Model.RequestId</code>
+                    </p>
+                </div>
+            }
+        </div>
+
+        <!-- Additional Help -->
+        <div class="mt-8 bg-white rounded-xl shadow-lg border border-neutral-200 p-6">
+            <h3 class="text-lg font-semibold text-neutral-900 mb-4">
+                <i class="fas fa-question-circle mr-2 text-primary-600"></i>
+                ¿Necesitas Ayuda?
+            </h3>
+            
+            <div class="space-y-3">
+                <a href="mailto:soporte@sistema.com" 
+                   class="flex items-center text-primary-600 hover:text-primary-700 transition-colors duration-200">
+                    <i class="fas fa-envelope mr-2"></i>
+                    Contactar Soporte
+                </a>
+                
+                <a href="tel:+1234567890" 
+                   class="flex items-center text-primary-600 hover:text-primary-700 transition-colors duration-200">
+                    <i class="fas fa-phone mr-2"></i>
+                    Llamar al Soporte
+                </a>
+                
+                <a href="/Help" 
+                   class="flex items-center text-primary-600 hover:text-primary-700 transition-colors duration-200">
+                    <i class="fas fa-book mr-2"></i>
+                    Centro de Ayuda
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Auto-refresh in development
+        @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+        {
+            <text>
+            setTimeout(function() {
+                if (confirm('¿Quieres recargar la página para ver si el error se ha solucionado?')) {
+                    location.reload();
+                }
+            }, 5000);
+            </text>
+        }
+    </script>
+}
